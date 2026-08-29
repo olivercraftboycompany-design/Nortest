@@ -1,0 +1,95 @@
+/* ==========================================================================
+   DETAIL MODE — optional "just a little more" polish layer
+   Pure static CSS, zero JS cost, zero backdrop-filter added. Gated entirely
+   behind a single class on <body>: body.detail-mode
+   When that class is absent, this file has no effect at all.
+   Toggle it from Settings — see the small JS hook in detail-mode.js.
+   ========================================================================== */
+
+/* Fine grain noise texture behind glass panels — barely visible, just
+   enough to stop large flat glass areas from looking like a flat PNG.
+   Implemented as a tiny inline SVG data-URI, no image request, no blur. */
+body.detail-mode .glass,
+body.detail-mode .app-header,
+body.detail-mode .mini-player-inner,
+body.detail-mode .full-glass-panel,
+body.detail-mode .modal-card{
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+}
+
+/* Slightly crisper double-border — a thin inner hairline in addition to
+   the outer border, the way real beveled glass edges catch two reflections
+   instead of one. No extra element, just a second box-shadow ring. */
+body.detail-mode .glass,
+body.detail-mode .app-header,
+body.detail-mode .mini-player-inner,
+body.detail-mode .full-glass-panel,
+body.detail-mode .modal-card{
+  box-shadow:
+    0 8px 28px rgba(0,0,0,.28),
+    0 1px 1px rgba(255,255,255,.5) inset,
+    0 0 0 1px rgba(255,255,255,.08) inset;
+}
+
+/* Icon buttons get a touch more depth: a slightly stronger top highlight
+   and a faint bottom shadow, so they read as gently domed rather than flat */
+body.detail-mode .icon-btn{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -1px 2px rgba(0,0,0,.12),
+    0 3px 8px rgba(0,0,0,.2);
+}
+
+/* Track rows: a hairline divider so long lists have gentle rhythm instead
+   of relying purely on hover state to separate items */
+body.detail-mode .track-row{
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+body.detail-mode .track-row:last-child{
+  border-bottom:none;
+}
+
+/* Cover art gets a slightly more defined edge + tiny corner glint */
+body.detail-mode .track-cover,
+body.detail-mode .collection-cover,
+body.detail-mode .collection-cover-lg,
+body.detail-mode .full-cover-wrap{
+  position:relative;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.18) inset,
+    0 1px 0 rgba(255,255,255,.12) inset;
+}
+
+/* Tabs and chips: a subtle pressed-in look on the inactive state so the
+   active tab feels a little more "raised" by comparison */
+body.detail-mode .tab-btn{
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.15);
+}
+body.detail-mode .tab-btn.active{
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 0 12px rgba(var(--accent-rgb),.3), 0 2px 6px rgba(0,0,0,.2);
+}
+
+/* Progress/seek bar: faint tick texture instead of a flat fill */
+body.detail-mode input[type=range].seek{
+  background-image: linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 8px 100%;
+  background-color: rgba(255,255,255,.2);
+}
+
+/* Section labels in modals get a slightly stronger letter treatment —
+   cheap typographic detail, no layout shift */
+body.detail-mode .modal-sub{
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  font-size:11px;
+  opacity:.65;
+}
+
+/* Buttons: a faint 1px inner rim in addition to their existing border */
+body.detail-mode .btn-primary,
+body.detail-mode .btn-ghost,
+body.detail-mode .chip-btn{
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
